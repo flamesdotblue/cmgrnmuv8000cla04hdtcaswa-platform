@@ -1,28 +1,27 @@
-import { useState } from 'react'
+import React from 'react'
+import Header from './components/Header'
+import RoleTabs from './components/RoleTabs'
+import CustomerApp from './components/CustomerApp'
+import VendorApp from './components/VendorApp'
+import AdminPortal from './components/AdminPortal'
+import { SharedBackendProvider } from './components/SharedBackendProvider'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [activeRole, setActiveRole] = React.useState('customer')
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
+    <SharedBackendProvider>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900">
+        <Header />
+        <main className="max-w-6xl mx-auto px-4 pb-16">
+          <RoleTabs active={activeRole} onChange={setActiveRole} />
+          <div className="mt-6">
+            {activeRole === 'customer' && <CustomerApp />}
+            {activeRole === 'vendor' && <VendorApp />}
+            {activeRole === 'admin' && <AdminPortal />}
+          </div>
+        </main>
       </div>
-    </div>
+    </SharedBackendProvider>
   )
 }
-
-export default App
